@@ -22,6 +22,12 @@ class NoteUpdateSerializer(ModelSerializer):
 
 
 class FolderListSerializer(ModelSerializer):
+    class Meta:
+        model = Folder
+        fields = ('id', 'user', 'name')
+
+
+class FolderDetailSerializer(ModelSerializer):
     notes = NoteListSerializer(many=True)
 
     class Meta:

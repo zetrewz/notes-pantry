@@ -2,7 +2,7 @@ from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView,
 
 from base.models import Folder, Note
 from base.serializers import FolderListSerializer, NoteListSerializer, FolderCreateSerializer, NoteCreateSerializer, \
-    FolderUpdateSerializer, NoteUpdateSerializer
+    FolderUpdateSerializer, NoteUpdateSerializer, FolderDetailSerializer
 
 
 class FolderListView(ListAPIView):
@@ -12,7 +12,7 @@ class FolderListView(ListAPIView):
 
 class FolderDetailView(RetrieveAPIView):
     queryset = Folder.objects.all()
-    serializer_class = FolderListSerializer
+    serializer_class = FolderDetailSerializer
 
 
 class FolderCreateView(CreateAPIView):
@@ -27,6 +27,14 @@ class FolderUpdateView(UpdateAPIView):
 
 class FolderDeleteView(DestroyAPIView):
     queryset = Folder.objects.all()
+
+
+pass
+pass
+pass
+pass
+pass
+pass
 
 
 class NoteListView(ListAPIView):
