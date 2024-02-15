@@ -1,40 +1,47 @@
 import React, {useState} from 'react';
 import axios from 'axios';
+import {useUser} from '../user/UserProvider';
 
 function CreateFolder() {
-    const [inputValue, setInputValue] = useState('');
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [folderName, setFolderName] = useState('');
+    const { currentUser } = useUser();
 
-    const handleChange = (event) => {
-        setInputValue(event.target.value);
-    };
+    function handleOpenModal() {
+        setIsModalOpen(true);
+    }
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        const folderData = {
-            user: 1,
-            name: inputValue,
-        };
-
+    const handleSubmit = async () => {
+        if (!currentUser) {
+            console.error('Пользователь не аутентифицирован или данные еще не загружены');
+            return;
+        }
         try {
-            const response = await axios.post('http://localhost:8000/api/folder/create/', folderData);
-            console.log(response.data);
-            setInputValue('');
+            await axios.post('http://localhost:8000/api/folder/create/', {
+                user: currentUser.id, name: folderName
+            });
+            setIsModalOpen(false);
+            setFolderName('');
         } catch (error) {
-            console.error('Ошибка при отправке данных:', error);
+            console.error('Error alo alo', error)
         }
     };
-
     return (
-            <form onSubmit={handleSubmit}>
-                <input
-                        type="text"
-                        value={inputValue}
-                        onChange={handleChange}
-                />
-                <button type="submit">Отправить</button>
-            </form>
+            <>
+                <button onClick={handleOpenModal}>Создать папку</button>
+                {isModalOpen && (
+                        <div className="modal">
+                            <input
+                                    type={"text"}
+                                    placeholder="Введите название"
+                                    value={folderName}
+                                    onChange={(e) => setFolderName(e.target.value)}
+                            />
+                            <button onClick={handleSubmit}>Создать</button>
+                        </div>
+                )}
+            </>
     );
 }
-
 
 export default CreateFolder;

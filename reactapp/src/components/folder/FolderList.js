@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
+import {Link} from "react-router-dom";
 
 function FolderList() {
     const [folders, setFolders] = useState([]);
@@ -19,11 +20,11 @@ function FolderList() {
 
     return (
             <div>
-                <ul>
-                    {folders.map(folder => (
-                            <li key={folder.id}>{folder.name}</li>
-                    ))}
-                </ul>
+                {folders.map(folder => (
+                        <ol key={folder.id}>
+                            {<Link to={`/folder/detail/${folder.id}`}>{folder.name}</Link>}
+                        </ol>
+                ))}
             </div>
     );
 }
