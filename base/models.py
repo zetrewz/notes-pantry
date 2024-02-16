@@ -7,6 +7,7 @@ User = get_user_model()
 class Folder(Model):
     user = ForeignKey(User, on_delete=CASCADE, related_name='folders')
     name = CharField(max_length=255)
+    parent_folder = ForeignKey('self', on_delete=CASCADE, null=True, blank=True, related_name='child_folders')
     created_at = DateTimeField(auto_now_add=True)
 
     def __str__(self):

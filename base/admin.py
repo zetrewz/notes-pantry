@@ -6,7 +6,7 @@ from base.models import Folder, Note
 
 @admin.register(Folder)
 class FolderAdmin(ModelAdmin):
-    list_display = ['user', 'name', 'created_at']
+    list_display = ['user', 'name', 'parent_folder', 'created_at']
 
 
 @admin.register(Note)

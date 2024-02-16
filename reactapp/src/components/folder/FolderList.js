@@ -6,14 +6,14 @@ function FolderList() {
     const [folders, setFolders] = useState([]);
 
     useEffect(() => {
-        const fetchFolders = async () => {
+        async function fetchFolders() {
             try {
                 const response = await axios.get('http://localhost:8000/api/folder/list/');
                 setFolders(response.data);
             } catch (error) {
                 console.error("Ошибка при получении списка папок:", error);
             }
-        };
+        }
 
         fetchFolders();
     }, []);

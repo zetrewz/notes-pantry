@@ -7,15 +7,15 @@ export const UserProvider = ({children}) => {
     const [currentUser, setCurrentUser] = useState(null);
 
     useEffect(() => {
-        const fetchCurrentUser = async () => {
+        async function fetchCurrentUser() {
             try {
-                const response = await axios.get('http://localhost:8000//api/get_current_user/', { withCredentials: true });
+                const response = await axios.get('http://localhost:8000//api/get_current_user/', {withCredentials: true});
                 console.log("Полученные данные пользователя:", response.data);
                 setCurrentUser(response.data);
             } catch (error) {
                 console.error("Ошибка при получении данных пользователя", error);
             }
-        };
+        }
 
         fetchCurrentUser();
     }, []);

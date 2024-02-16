@@ -9,6 +9,12 @@ class FolderListView(ListAPIView):
     queryset = Folder.objects.all()
     serializer_class = FolderListSerializer
 
+    def get_queryset(self):
+        """
+        Возвращает только те объекты Folder, у которых нет родительского объекта.
+        """
+        return Folder.objects.filter(parent_folder__isnull=True)
+
 
 class FolderDetailView(RetrieveAPIView):
     queryset = Folder.objects.all()

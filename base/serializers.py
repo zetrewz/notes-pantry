@@ -29,16 +29,17 @@ class FolderListSerializer(ModelSerializer):
 
 class FolderDetailSerializer(ModelSerializer):
     notes = NoteListSerializer(many=True)
+    child_folders = FolderListSerializer(many=True)
 
     class Meta:
         model = Folder
-        fields = ('id', 'user', 'name', 'notes')
+        fields = ('id', 'user', 'name', 'notes', 'child_folders')
 
 
 class FolderCreateSerializer(ModelSerializer):
     class Meta:
         model = Folder
-        fields = ('user', 'name')
+        fields = ('user', 'name', 'parent_folder')
 
 
 class FolderUpdateSerializer(ModelSerializer):
