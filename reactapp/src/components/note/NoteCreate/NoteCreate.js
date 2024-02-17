@@ -1,13 +1,12 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import axios from "axios";
-import {useUser} from "../user/UserProvider";
+import {useUser} from "../../user/UserProvider";
 import {useLocation} from "react-router-dom";
+import styles from "./NoteCreate.module.css";
+
 import {
-    Button,
     Modal,
     ModalContent,
-    ModalHeader,
-    ModalCloseButton,
     ModalBody,
     ModalFooter,
     Input,
@@ -16,7 +15,7 @@ import {
 } from '@chakra-ui/react';
 
 
-function CreateNote() {
+function NoteCreate() {
     const location = useLocation();
     const [noteContent, setNoteContent] = useState('');
     const {currentUser} = useUser();
@@ -74,26 +73,39 @@ function CreateNote() {
     }
 
     return (
-            <div>
-                <Button onClick={onOpen} colorScheme="yellow">Создать заметку</Button>
+            <div className={styles.btnDiv}>
+                <button onClick={onOpen}
+                        className="group block max-w-36 mx-auto rounded-lg p-3 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:ring-sky-500 ">
+                    <div className="flex items-center space-x-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
+                             stroke="currentColor" className="w-6 h-6">
+                            <path strokeLinecap="round" strokeLinejoin="round"
+                                  d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"/>
+                        </svg>
+                        <h3 className="text-slate-900 text-sm font-semibold">New note</h3>
+                    </div>
+                </button>
                 <Modal isOpen={isOpen} onClose={handleClose} size={'xs'}>
-                    <ModalContent>
-                        <ModalHeader>Создать новую заметку</ModalHeader>
-                        <ModalCloseButton/>
+                    <ModalContent shadow="md">
                         <ModalBody>
                             <Input
-                                    textAlign='center'
-                                    ml={55}
-                                    htmlSize={14}
+                                    focusBorderColor="black"
+                                    htmlSize={30}
                                     width="auto"
                                     variant="flushed"
-                                    placeholder="Введите название"
+                                    placeholder="Введите содержимое"
                                     onChange={(e) => setNoteContent(e.target.value)}
                                     value={noteContent}
                             />
                         </ModalBody>
                         <ModalFooter>
-                            <Button onClick={handleSubmit} colorScheme="blue" mr={24}>Создать</Button>
+                            <button onClick={handleSubmit}>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                     strokeWidth="1.5"
+                                     stroke="currentColor" className="w-6 h-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
+                                </svg>
+                            </button>
                         </ModalFooter>
                     </ModalContent>
                 </Modal>
@@ -101,4 +113,4 @@ function CreateNote() {
     )
 }
 
-export default CreateNote;
+export default NoteCreate;

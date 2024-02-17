@@ -1,27 +1,27 @@
 import React, {useState} from 'react';
 import axios from 'axios';
-import {useUser} from '../user/UserProvider';
+import {useUser} from '../../user/UserProvider';
 import {useLocation} from "react-router-dom";
+import styles from "./FolderCreate.module.css";
 import {
-    Button,
     Modal,
     ModalContent,
-    ModalHeader,
-    ModalCloseButton,
     ModalBody,
     ModalFooter,
     Input,
     useDisclosure,
     useToast
 } from '@chakra-ui/react';
+import {useFolders} from "../FolderContext/FolderContext";
 
 
-function CreateFolder() {
+function FolderCreate() {
     const location = useLocation();
     const {isOpen, onOpen, onClose} = useDisclosure();
     const [folderName, setFolderName] = useState('');
     const {currentUser} = useUser();
     const toast = useToast();
+    const {fetchFolders} = useFolders();
 
     async function handleSubmit() {
         if (!currentUser) {
@@ -63,6 +63,7 @@ function CreateFolder() {
                 isClosable: true,
             });
         }
+        fetchFolders();
     }
 
     function handleClose() {
@@ -71,17 +72,24 @@ function CreateFolder() {
     }
 
     return (
-            <div>
-                <Button onClick={onOpen} colorScheme='orange'>Создать папку</Button>
+            <div className={styles.btnDiv}>
+                <button onClick={onOpen}
+                        className="group block max-w-36 mx-auto rounded-lg p-3 bg-white ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:ring-sky-500 ">
+                    <div className="flex items-center space-x-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
+                             stroke="currentColor" className="w-6 h-6">
+                            <path strokeLinecap="round" strokeLinejoin="round"
+                                  d="M12 10.5v6m3-3H9m4.06-7.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z"/>
+                        </svg>
+                        <h3 className="text-slate-900 text-sm font-semibold">New folder</h3>
+                    </div>
+                </button>
                 <Modal isOpen={isOpen} onClose={handleClose} size="xs">
-                    <ModalContent>
-                        <ModalHeader>Создать новую папку</ModalHeader>
-                        <ModalCloseButton/>
+                    <ModalContent shadow="md">
                         <ModalBody>
                             <Input
-                                    textAlign='center'
-                                    marginLeft={55}
-                                    htmlSize={14}
+                                    focusBorderColor="black"
+                                    htmlSize={30}
                                     width='auto'
                                     variant='flushed'
                                     placeholder="Введите название"
@@ -90,9 +98,13 @@ function CreateFolder() {
                             />
                         </ModalBody>
                         <ModalFooter>
-                            <Button colorScheme="blue" mr={24} onClick={handleSubmit}>
-                                Создать
-                            </Button>
+                            <button onClick={handleSubmit}>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                     strokeWidth="1.5"
+                                     stroke="currentColor" className="w-6 h-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
+                                </svg>
+                            </button>
                         </ModalFooter>
                     </ModalContent>
                 </Modal>
@@ -100,4 +112,4 @@ function CreateFolder() {
     );
 }
 
-export default CreateFolder;
+export default FolderCreate;
